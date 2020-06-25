@@ -184,7 +184,7 @@ public class Core {
 		}
 		else if(timeBeforeSwap == 0) {
 		    swap();
-		    timeBeforeSwap = random.nextInt(210) + 60;
+		    timeBeforeSwap = random.nextInt(150) + 180;
 		}
 		else {
 		    timeBeforeSwap--;
