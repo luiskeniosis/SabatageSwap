@@ -11,20 +11,16 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 
 import lucien.SabatageSwap.game.Main;
 
-public class PreGameCancelledHandler implements Listener {
+public class CancelledHandler implements Listener {
     @EventHandler
     public void noEntityDamage(EntityDamageEvent event) {
 	if(Main.preGame ==  true || Main.postGame == true)
-	    //Cancel the event
 	    event.setCancelled(true);
     }
     
     @EventHandler
     public void noHungerChange(FoodLevelChangeEvent event) {
-	//Player hunger does not change during the pre-game
-	//If it is currently the pre-game
-	if(Main.preGame == true)
-	    //Cancel the event
+	if(Main.preGame == true || Main.postGame == true)
 	    event.setCancelled(true);
     }
     

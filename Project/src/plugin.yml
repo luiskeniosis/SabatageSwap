@@ -1,11 +1,9 @@
 main: lucien.SabatageSwap.game.Main
 name: SabatageSwap
-version: testing
+version: 1.02
 author: Lucien
 prefix: LucienAI
 api-version: 1.15
 commands:
   swap:
     description: Manually performs a swap. For debugging.
-  test:
-    description: Test command. For testing only...

@@ -24,7 +24,7 @@ import org.bukkit.util.Vector;
 public class Core {
     private static World world = Bukkit.getWorld("world");
     public static List<UUID> gameStartFallingPlayers = new ArrayList<UUID>();
-    private static List<Player> playerList;
+    public static List<Player> playerList;
     private static int timeBeforeSwap = 600;
     private static Random random = new Random();
 

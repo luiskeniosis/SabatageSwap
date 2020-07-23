@@ -1,28 +1,24 @@
 package lucien.SabatageSwap.game;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import lucien.SabarageSwap.events.CancelledHandler;
+import lucien.SabarageSwap.events.PlayerDeathHandler;
 import lucien.SabarageSwap.events.PlayerInteractHandler;
 import lucien.SabarageSwap.events.PlayerJoinHandler;
 import lucien.SabarageSwap.events.PlayerMoveHandler;
-import lucien.SabarageSwap.events.PreGameCancelledHandler;
 
 public class Main extends JavaPlugin {
     //Stores "this" plugin for use in other classes
     public static Main plugin;
 
-    //Sets the preGame and graceMode status to true upon server load
+    //Sets preGame to true, and postGame to false upon server load
     public static boolean preGame = true;
     public static boolean postGame = false;
-
-    //EventListeners for SpigotEvents
-    PlayerInteractHandler playerInteractHandler = new PlayerInteractHandler();
-    PlayerJoinHandler playerJoinHandler = new PlayerJoinHandler();
-    PlayerMoveHandler playerMoveHandler = new PlayerMoveHandler();
-    PreGameCancelledHandler preGameHandler = new PreGameCancelledHandler();
     
     @Override
     public void onEnable() {
@@ -37,11 +33,10 @@ public class Main extends JavaPlugin {
 	PreGameManager.generatePreGameItems();
 	
 	getCommand("swap").setExecutor(new SwapCommand());
-	getCommand("test").setExecutor(new TestCommand());
     }
 
     private void setGamerules() {
-	World world = getServer().getWorld("world");
+	World world = Bukkit.getServer().getWorlds().get(0);
 	world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 	world.setGameRule(GameRule.SPAWN_RADIUS, 1);
 	world.setGameRule(GameRule.MOB_GRIEFING, false);
@@ -50,9 +45,10 @@ public class Main extends JavaPlugin {
 
     private void registerHandlers() {
 	PluginManager pluginManager = getServer().getPluginManager();
-	pluginManager.registerEvents(playerInteractHandler, this);
-	pluginManager.registerEvents(playerJoinHandler, this);
-	pluginManager.registerEvents(playerMoveHandler, this);
-	pluginManager.registerEvents(preGameHandler, this);
+	pluginManager.registerEvents(new PlayerInteractHandler(), this);
+	pluginManager.registerEvents(new PlayerJoinHandler(), this);
+	pluginManager.registerEvents(new PlayerMoveHandler(), this);
+	pluginManager.registerEvents(new PlayerDeathHandler(), this);
+	pluginManager.registerEvents(new CancelledHandler(), this);
     }
 }
