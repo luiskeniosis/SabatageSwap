@@ -28,9 +28,14 @@ public class PlayerDeathHandler implements Listener {
 	    }
 	}.runTaskLater(Main.plugin, 3l);
 	if(Core.playerList.size() == 1) {
-	    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fReset the world to play again!"));
+	    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fStarting new game!"));
 	    for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 		onlinePlayer.sendTitle(ChatColor.DARK_PURPLE + Core.playerList.get(0).getName(), ChatColor.WHITE + "Is this game's winner!", 10, 100, 10);
+		Main.pregame = true;
+		player.getInventory().addItem(PreGameManager.notReadyWool);
+		player.teleport(player.getWorld().getSpawnLocation());
+		//should give all players red wool, and send to lobby
+		player.setGamemode(GameMode.SURVIVAL);
 	    }
 	}
     }
