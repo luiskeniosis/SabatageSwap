@@ -25,7 +25,7 @@ public class Core {
     private static World world = Bukkit.getWorld("world");
     public static List<UUID> gameStartFallingPlayers = new ArrayList<UUID>();
     public static List<Player> playerList;
-    private static int timeBeforeSwap = 600;
+    private static int timeBeforeSwap = 300;
     private static Random random = new Random();
 
     public static void startGame() {
@@ -80,8 +80,8 @@ public class Core {
 		    //If the timer has finished
 		    if(timer == 0) {
 			//Stores the radius we want to spread players
-			int maxX = 101;
-			int maxZ = 101;
+			int maxX = 1001;
+			int maxZ = 1001;
 			//Creates a randomizer object
 			Random random = new Random();
 			//For every player online
@@ -93,11 +93,11 @@ public class Core {
 			    //Generate a number between 0 and (maxZ-1)
 			    int z = random.nextInt(maxZ);
 			    //If the number generated was in the upper half
-			    if(x > 50)
+			    if(x > 500)
 				//Divide it by 2 and reverse it
 				x = (x/2) * -1;
 			    //If the number generated was in the upper half
-			    if(z > 50)
+			    if(z > 500)
 				//Divide it by 2 and reverse it
 				z = (z/2) * -1;
 			    //Cancel all player motion
@@ -115,7 +115,7 @@ public class Core {
 			}
 			timer = -1;
 			Main.preGame = false;
-			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &cThe first swap will be in 10 minutes."));
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &cThe first swap will be in 5 minutes."));
 		    }
 		}
 	    }
@@ -132,7 +132,57 @@ public class Core {
 	new BukkitRunnable() {
 	    @Override
 	    public void run() {
-		if(timeBeforeSwap == 5) {
+		if(timeBeforeSwap == 10) {
+		    //For every player online
+		    for(Player players : Bukkit.getOnlinePlayers()) {
+			//Display a title screen
+			players.sendTitle(ChatColor.RED + "10", "", 0, 20, 10);
+			//Play a note
+			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
+		    }
+		    timeBeforeSwap--;
+		}
+		else if(timeBeforeSwap == 9) {
+		    //For every player online
+		    for(Player players : Bukkit.getOnlinePlayers()) {
+			//Display a title screen
+			players.sendTitle(ChatColor.RED + "9", "", 0, 20, 10);
+			//Play a note
+			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
+		    }
+		    timeBeforeSwap--;
+		}
+		else if(timeBeforeSwap == 8) {
+		    //For every player online
+		    for(Player players : Bukkit.getOnlinePlayers()) {
+			//Display a title screen
+			players.sendTitle(ChatColor.RED + "8", "", 0, 20, 10);
+			//Play a note
+			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
+		    }
+		    timeBeforeSwap--;
+		}
+		else if(timeBeforeSwap == 7) {
+		    //For every player online
+		    for(Player players : Bukkit.getOnlinePlayers()) {
+			//Display a title screen
+			players.sendTitle(ChatColor.RED + "7", "", 0, 20, 10);
+			//Play a note
+			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
+		    }
+		    timeBeforeSwap--;
+		}
+		else if(timeBeforeSwap == 6) {
+		    //For every player online
+		    for(Player players : Bukkit.getOnlinePlayers()) {
+			//Display a title screen
+			players.sendTitle(ChatColor.RED + "6", "", 0, 20, 10);
+			//Play a note
+			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
+		    }
+		    timeBeforeSwap--;
+		}
+		else if(timeBeforeSwap == 5) {
 		    //For every player online
 		    for(Player players : Bukkit.getOnlinePlayers()) {
 			//Display a title screen
