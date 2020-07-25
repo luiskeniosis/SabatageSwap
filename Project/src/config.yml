@@ -1,0 +1,21 @@
+#Grace period time in SECONDS.
+gracePeriodTime: 600
+
+#The RADIUS of blocks to spread players.
+#Example: Radius of 100 means players can spawn anywhere between [-200,-200] and [200,200]
+spreadRadius: 100
+
+#By default, players are notified about the swap 5 seconds prior.
+#Enable this to notify players 10 seconds prior instead.
+tenSecondWarning: false
+
+#Minimum time between swaps in SECONDS.
+#Must be 0 or greater.
+minimumSwapTime: 180
+
+#Maximum amount of time to be added on to the minimum time in SECONDS.
+#Must be 0 or greater.
+maximumAdditionalTime: 150
+
+#How time between swaps are calculated:
+#A random number is generated between 0 and the maximumAdditionalTime, that value is then added on to the minimumSwapTime.
