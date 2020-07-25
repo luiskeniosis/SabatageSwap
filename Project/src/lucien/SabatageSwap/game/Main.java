@@ -11,6 +11,8 @@ import lucien.SabarageSwap.events.PlayerDeathHandler;
 import lucien.SabarageSwap.events.PlayerInteractHandler;
 import lucien.SabarageSwap.events.PlayerJoinHandler;
 import lucien.SabarageSwap.events.PlayerMoveHandler;
+import lucien.SabatageSwap.commands.ReloadCommand;
+import lucien.SabatageSwap.commands.SwapCommand;
 
 public class Main extends JavaPlugin {
     //Stores "this" plugin for use in other classes
@@ -32,7 +34,12 @@ public class Main extends JavaPlugin {
 	registerHandlers();
 	PreGameManager.generatePreGameItems();
 	
+	//Generates config.yml
+	saveDefaultConfig();
+	
+	//Registers Commands
 	getCommand("swap").setExecutor(new SwapCommand());
+	getCommand("ssreload").setExecutor(new ReloadCommand());
     }
 
     private void setGamerules() {
