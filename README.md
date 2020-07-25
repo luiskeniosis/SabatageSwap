@@ -13,3 +13,4 @@ When a player joins the server, they'll be given a red wool, which they can righ
 
 # Commands/Permissions
 **/swap**: Manually swaps players. (*Permission: ss.swap*)
+**/ssreload**: Reloads the config. (*Permission: ss.reload*)
