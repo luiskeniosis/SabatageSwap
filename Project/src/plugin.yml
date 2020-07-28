@@ -1,11 +1,16 @@
 main: lucien.SabatageSwap.game.Main
 name: SabatageSwap
-version: 1.03
+version: 1.04
 author: Lucien
 prefix: LucienAI
 api-version: 1.15
 commands:
   swap:
     description: Manually performs a swap. For admins.
+    permission: ss.swap
   ssreload:
     description: Reloads the config.
+    permission: ss.reload
+  ssreset:
+    description: Resets the game, starting the lobby period again. This does NOT reset the world.
+    permission: ss.reset

@@ -14,13 +14,13 @@ import lucien.SabatageSwap.game.Main;
 public class CancelledHandler implements Listener {
     @EventHandler
     public void noEntityDamage(EntityDamageEvent event) {
-	if(Main.preGame ==  true || Main.postGame == true)
+	if(Main.preGame ==  true)
 	    event.setCancelled(true);
     }
     
     @EventHandler
     public void noHungerChange(FoodLevelChangeEvent event) {
-	if(Main.preGame == true || Main.postGame == true)
+	if(Main.preGame == true)
 	    event.setCancelled(true);
     }
     

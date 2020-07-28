@@ -19,3 +19,7 @@ maximumAdditionalTime: 150
 
 #How time between swaps are calculated:
 #A random number is generated between 0 and the maximumAdditionalTime, that value is then added on to the minimumSwapTime.
+
+#If true, the plugin will reset it self after a player wins, restarting the lobby period.
+#Note that this does NOT reset the world. Only the plugin.
+autoReset: false

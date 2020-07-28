@@ -23,9 +23,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class Core {
-    private static World world = Bukkit.getWorlds().get(0);
     public static List<UUID> gameStartFallingPlayers = new ArrayList<UUID>();
-    public static List<Player> playerList;
+    @SuppressWarnings("unchecked")
+    public static List<Player> playerList = (List<Player>) Bukkit.getOnlinePlayers();
+    private static World world = Bukkit.getServer().getWorlds().get(0);
     private static int timeBeforeSwap = Main.plugin.getConfig().getInt("gracePeriodTime");
     private static Random random = new Random();
 
@@ -116,13 +117,13 @@ public class Core {
 			}
 			timer = -1;
 			Main.preGame = false;
-			DecimalFormat formatter = new DecimalFormat("#.##");
-			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &cThe first swap will be in " +
-				formatter.format(timeBeforeSwap/60) +" minutes."));
 		    }
 		}
 	    }
 	}, 0L, 1L);
+	DecimalFormat formatter = new DecimalFormat("#.##");
+	Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &cThe first swap will be in " +
+		formatter.format(timeBeforeSwap/60) +" minutes."));
 	//Set the world time to 0 (day)
 	world.setTime(0);
 	//Re-enables mob-greifing
@@ -277,5 +278,25 @@ public class Core {
 		playerArray[i].teleport(locationArray[(i + 1 == size) ? 0 : (i + 1)]);
 	    }
 	}
+    }
+
+    public static void reset() {
+	Main.preGame = true;
+	world.setGameRule(GameRule.MOB_GRIEFING, false);
+	Main.plugin.reloadConfig();
+	PreGameManager.playersReady.clear();
+	timeBeforeSwap = Main.plugin.getConfig().getInt("gracePeriodTime");
+	for(Player player : Bukkit.getOnlinePlayers()) {
+	    player.setGameMode(GameMode.SURVIVAL);
+	    player.setHealth(20);
+	    player.setFoodLevel(20);
+	    player.setSaturation(5);
+	    player.teleport(world	.getSpawnLocation());
+	    player.getInventory().clear();
+	    player.getInventory().addItem(PreGameManager.notReadyWool);
+	    if(!playerList.isEmpty() && !playerList.contains(player))
+		playerList.add(player);
+	}
+	Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fGame has been reset!"));
     }
 }

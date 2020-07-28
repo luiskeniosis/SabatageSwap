@@ -28,10 +28,21 @@ public class PlayerDeathHandler implements Listener {
 	    }
 	}.runTaskLater(Main.plugin, 3l);
 	if(Core.playerList.size() == 1) {
-	    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fReset the world to play again!"));
 	    for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-		onlinePlayer.sendTitle(ChatColor.DARK_PURPLE + Core.playerList.get(0).getName(), ChatColor.WHITE + "Is this game's winner!", 10, 100, 10);
+		onlinePlayer.sendTitle(ChatColor.DARK_PURPLE + Core.playerList.get(0).getName(), ChatColor.WHITE + "Is this game's winner!", 10, 180, 10);
 	    }
+	    if(Main.plugin.getConfig().getBoolean("autoReset") == true) {
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fGame will restart in 10 seconds..."));    
+		new BukkitRunnable() {
+		    @Override
+		    public void run() {
+			Core.reset();
+			this.cancel();
+		    }
+		}.runTaskLater(Main.plugin, 200);
+	    }
+	    else
+		Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&8[&5Lucien&l&dAI&r&8] &fReset the world to play again!"));    
 	}
     }
 }

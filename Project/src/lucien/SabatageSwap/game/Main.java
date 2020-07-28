@@ -12,6 +12,7 @@ import lucien.SabarageSwap.events.PlayerInteractHandler;
 import lucien.SabarageSwap.events.PlayerJoinHandler;
 import lucien.SabarageSwap.events.PlayerMoveHandler;
 import lucien.SabatageSwap.commands.ReloadCommand;
+import lucien.SabatageSwap.commands.ResetCommand;
 import lucien.SabatageSwap.commands.SwapCommand;
 
 public class Main extends JavaPlugin {
@@ -20,7 +21,6 @@ public class Main extends JavaPlugin {
 
     //Sets preGame to true, and postGame to false upon server load
     public static boolean preGame = true;
-    public static boolean postGame = false;
     
     @Override
     public void onEnable() {
@@ -40,6 +40,7 @@ public class Main extends JavaPlugin {
 	//Registers Commands
 	getCommand("swap").setExecutor(new SwapCommand());
 	getCommand("ssreload").setExecutor(new ReloadCommand());
+	getCommand("ssreset").setExecutor(new ResetCommand());
     }
 
     private void setGamerules() {
