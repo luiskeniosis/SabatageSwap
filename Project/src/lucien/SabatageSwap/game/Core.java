@@ -28,9 +28,14 @@ public class Core {
     public static List<Player> playerList = (List<Player>) Bukkit.getOnlinePlayers();
     private static World world = Bukkit.getServer().getWorlds().get(0);
     private static int timeBeforeSwap = Main.plugin.getConfig().getInt("gracePeriodTime");
+    private static boolean tenSecondWarning = Main.plugin.getConfig().getBoolean("tenSecondWarning");
+    private static int minimumSwapTime = Main.plugin.getConfig().getInt("minimumSwapTime");
+    private static int maximumAdditionalTime = Main.plugin.getConfig().getInt("maximumAdditionalTime");
     private static Random random = new Random();
+    public static int swapTaskID = 0;
 
     public static void startGame() {
+	timeBeforeSwap = Main.plugin.getConfig().getInt("gracePeriodTime");
 	Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Main.plugin, new Runnable() {
 	    int timer = 60;
 	    @Override
@@ -133,10 +138,11 @@ public class Core {
     }
 
     private static void startSwapping() {
-	boolean tenSecondWarning = Main.plugin.getConfig().getBoolean("tenSecondWarning");
-	int minimumSwapTime = Main.plugin.getConfig().getInt("minimumSwapTime");
-	int maximumAdditionalTime = Main.plugin.getConfig().getInt("maximumAdditionalTime");
-	new BukkitRunnable() {
+	if(maximumAdditionalTime <= 0)
+	    maximumAdditionalTime = 1;
+	if(minimumSwapTime < 0)
+	    minimumSwapTime = 0;
+	swapTaskID = new BukkitRunnable() {
 	    @Override
 	    public void run() {
 		if(tenSecondWarning == true) {
@@ -148,7 +154,6 @@ public class Core {
 			    //Play a note
 			    players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 			}
-			timeBeforeSwap--;
 		    }
 		    else if(timeBeforeSwap == 9) {
 			//For every player online
@@ -158,7 +163,6 @@ public class Core {
 			    //Play a note
 			    players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 			}
-			timeBeforeSwap--;
 		    }
 		    else if(timeBeforeSwap == 8) {
 			//For every player online
@@ -168,7 +172,6 @@ public class Core {
 			    //Play a note
 			    players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 			}
-			timeBeforeSwap--;
 		    }
 		    else if(timeBeforeSwap == 7) {
 			//For every player online
@@ -178,7 +181,6 @@ public class Core {
 			    //Play a note
 			    players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 			}
-			timeBeforeSwap--;
 		    }
 		    else if(timeBeforeSwap == 6) {
 			//For every player online
@@ -188,7 +190,6 @@ public class Core {
 			    //Play a note
 			    players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 			}
-			timeBeforeSwap--;
 		    }
 		}
 		if(timeBeforeSwap == 5) {
@@ -199,7 +200,6 @@ public class Core {
 			//Play a note
 			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 		    }
-		    timeBeforeSwap--;
 		}
 		else if(timeBeforeSwap == 4) {
 		    //For every player online
@@ -209,7 +209,6 @@ public class Core {
 			//Play a note
 			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 		    }
-		    timeBeforeSwap--;
 		}
 		else if(timeBeforeSwap == 3) {
 		    //For every player online
@@ -219,7 +218,6 @@ public class Core {
 			//Play a note
 			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 		    }
-		    timeBeforeSwap--;
 		}
 		else if(timeBeforeSwap == 2) {
 		    //For every player online
@@ -229,7 +227,6 @@ public class Core {
 			//Play a note
 			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 		    }
-		    timeBeforeSwap--;
 		}
 		else if(timeBeforeSwap == 1) {
 		    //For every player online
@@ -239,17 +236,14 @@ public class Core {
 			//Play a note
 			players.playNote(players.getLocation(), Instrument.PLING, new Note(1));
 		    }
-		    timeBeforeSwap--;
 		}
 		else if(timeBeforeSwap == 0) {
 		    swap();
 		    timeBeforeSwap = random.nextInt(maximumAdditionalTime) + minimumSwapTime;
 		}
-		else {
-		    timeBeforeSwap--;
-		}
+		timeBeforeSwap--;
 	    }
-	}.runTaskTimer(Main.plugin, 0L, 20L);
+	}.runTaskTimer(Main.plugin, 0L, 20L).getTaskId();
     }
 
     public static void swap() {
@@ -282,6 +276,7 @@ public class Core {
 
     public static void reset() {
 	Main.preGame = true;
+	Bukkit.getScheduler().cancelTask(swapTaskID);
 	world.setGameRule(GameRule.MOB_GRIEFING, false);
 	Main.plugin.reloadConfig();
 	PreGameManager.playersReady.clear();
